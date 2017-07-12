@@ -1,0 +1,142 @@
+<html>
+
+<head>
+<title>Encryption/Decryption</title>
+<script language="JavaScript">
+
+//Message Encrypter- By Naresh Hotchandani (nhotchandani@rediffmail.com)
+//Script featured on Dynamic Drive
+//Visit http://www.dynamicdrive.com for this script and more 
+
+len=0;
+
+function CalcKey()
+{
+len=0;
+var temp=document.Encrypt.Key.value;
+
+for(i=0;i<temp.length;i++)
+{
+len=len+temp.charCodeAt(i);
+}
+if(len==0)
+{
+alert('Please Enter the appropriate Key');
+document.Encrypt.Key.focus();
+}
+return len;
+}
+
+
+function Encryption()
+{
+
+CalcKey();
+document.Encrypt.Encrypted.value="";
+var txt=document.Encrypt.normal.value;
+
+var net="";
+var fin=0;
+
+if(len>0)
+{
+
+if(txt.length>0)
+{
+for(i=0;i<txt.length;i++)
+{
+fin=txt.charCodeAt(i)+len;
+
+if(fin>99)
+{
+net=net+fin;
+}
+else
+{
+net=net+'0'+fin;
+}
+}
+
+document.Encrypt.Encrypted.value=net;
+document.Encrypt.normal.value="";
+}
+else
+{
+alert('Please Enter the Text to be Encrypted');
+document.Encrypt.normal.focus();
+}
+
+}
+}
+
+function Decryption()
+{
+var txt=document.Encrypt.Encrypted.value;
+var j=3;
+var temp1;
+var res="";
+
+CalcKey();
+
+if(len>0)
+{
+if(txt.length>0)
+{
+for(i=0;i<txt.length;i+=3)
+{
+
+var temp=txt.substring(i,j);
+temp1=(parseInt(temp)-len);
+var t=unescape('%'+temp1.toString(16));
+if(t=='%d' || t=='%a')
+{
+res=res+' ';
+}
+else
+{
+res=res+t
+} 
+j+=3;
+}
+document.Encrypt.normal.value=res;
+document.Encrypt.Encrypted.value="";
+}
+else
+{
+alert('Please Enter the Encrypted Text');
+document.Encrypt.Encrypted.focus();
+}
+}
+}
+
+</script>
+</head>
+
+<body>
+
+<form name="Encrypt">
+
+<p align="left">
+<b>Enter Key:</b> (up to five characters and remember it, because it will be needed for decryption):<p><input type="text" name="Key" 
+size="20" maxlength="5">
+
+<p align="left">
+<b>Enter/show Text:</b>
+
+<p><textarea rows="9" name="normal" cols="69" placeholder="Enter here the Text to be Encrypted">
+</textarea>
+
+<p align="left"><b>Enter/show Encrypted text:&nbsp;&nbsp;</b></p>
+<textarea rows="10" name="Encrypted" 
+cols="69">Enter here the Code to be Decrypted.</textarea>
+<br>
+
+<p align="left">
+<input type="button" value="Encrypt" onclick="Encryption()">&nbsp;<input 
+type="button" value="Decrypt" onclick="Decryption()">&nbsp;<input 
+type="reset" value="Reset">
+
+</form>
+</body>
+
+</html>
